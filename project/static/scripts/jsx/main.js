@@ -2,7 +2,9 @@ var DynamicSearch = React.createClass({
 
   // sets initial state
   getInitialState: function(){
-    return { searchString: '' };
+    return { searchString: '',
+             lyrics: ''   
+          };
   },
 
   // sets state, triggers render method
@@ -12,7 +14,29 @@ var DynamicSearch = React.createClass({
     console.log("scope updated!");
   },
 
-  render: function() {
+  render: async function() {
+    const lyrics = await fetch(`${window.origin}/song`, {
+      method: "GET",
+      credentials: "include",
+      cache: "no-cache",
+      headers: new Headers({
+        "content-type": "application/json"
+      })
+    })
+    .then(function(response) {
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(function(data) {
+        console.log(data);
+      });
+    })
+    .catch(function(error) {
+      console.log("Fetch error: " + error);
+    });
+
+    this.setState({ lyrics : lyrics });
 
     var countries = this.props.items;
     var searchString = this.state.searchString.trim().toLowerCase();
@@ -26,6 +50,7 @@ var DynamicSearch = React.createClass({
 
     return (
       <div>
+        <p>{ this.state.lyrics }</p> 
         <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search!" />
         <ul>
           { countries.map(function(country){ return <li>{country.name} </li> }) }
