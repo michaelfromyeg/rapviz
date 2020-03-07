@@ -1,2 +1,4 @@
-# RapViz
- Project built for HackTech 2020. Visualize rhyme schemes.
+Be sure to check out the blog posts-
+
+1. https://realpython.com/blog/python/the-ultimate-flask-front-end/
+1. https://realpython.com/blog/python/the-ultimate-flask-front-end-part-2/
