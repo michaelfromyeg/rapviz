@@ -112,7 +112,6 @@ dist
 *.pyc
 *.pyo
 env/
-env*
 dist/
 build/
 *.egg
@@ -130,3 +129,6 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+#ignore generated react build
+flask-backend/static/

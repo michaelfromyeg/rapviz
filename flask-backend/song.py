@@ -79,9 +79,3 @@ class Song:
               return clusters
       clusters.append([word])
       return clusters
-
-    
-
-s = Song("Roses are red violets are blue jack is you hack is true")
-
-print(s.find_all_rhyme_clusters())
