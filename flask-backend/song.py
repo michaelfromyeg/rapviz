@@ -14,6 +14,8 @@ class Song:
     replace_all_punc = re.sub("[.,:?!;\-()']","", self.lyrics)
     self.lyrics_array = re.split("[ |\n]", replace_all_punc)
     self.rhymes = self.generate_rhymes(self.lyrics_array)
+
+    self.blacklist = ['a', 'the', 'can', 'an']
     # print(self.lyrics_array)
 
   def generate_rhymes(self, str_arr : List[str]) -> Dict[str, List[str]]:
@@ -44,6 +46,8 @@ class Song:
         bool -- does the two words rhyme
     """
     rhymes = self.rhymes
+    if word1 in self.blacklist or word2 in self.blacklist:
+        return False
     word1 = word1.lower()
     word2 = word2.lower()
     if word1 not in rhymes.keys() or word2 not in rhymes.keys():

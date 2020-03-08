@@ -33,6 +33,7 @@ let generateRhymes = (lyrics, rhymes) => {
   let color = 0;
   let colors = rhymes.reduce((map, rhymeCluster) => {
     map[randomColor(color)] = rhymeCluster;
+    color++;
     return map;
   }, {})
 
@@ -88,7 +89,7 @@ let randomColor = (color) => {
     case 7: 
       return "#5D6D7E";
     case 8: 
-      return "#F4F6F7";
+      return "#000000";
     case 9: 
       return "#EC7063";
     case 10:

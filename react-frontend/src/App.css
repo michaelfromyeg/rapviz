@@ -189,3 +189,10 @@ input {
   flex-grow: 1;
   margin-top: 15px;
 }
+.MuiCircularProgress-indeterminate {
+  width: 35px!important;
+  height: 35px!important;
+  position: relative!important;
+  top: 9px!important;
+  color: inherit!importat;
+}
