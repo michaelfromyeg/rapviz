@@ -3,6 +3,7 @@ import * as $ from "jquery";
 import { authEndpoint, clientId, redirectUri, scopes } from "./config";
 import hash from "./hash";
 import Player from "./Player";
+import PoetryVisualizer from './components/RhymeVisualizer/PoetryVisualizer'
 import logo from "./logo.svg";
 import "./App.css";
 import header from './rapviz-logo-textonly-01.png'
@@ -24,7 +25,9 @@ class App extends Component {
       progress_ms: 0
     };
     this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
+    this.onPoetry = this.onPoetry.bind(this);
   }
+
   componentDidMount() {
     // Set token
     let _token = hash.access_token;
@@ -56,6 +59,15 @@ class App extends Component {
     });
   }
 
+  onPoetry() {
+    console.log('onPoetry')
+    console.log(this.state.token)
+    this.setState({
+      token: 'poetry',
+    })
+    console.log(this.state.token)
+  }
+
   render() {
     return (
       <div className="App">
@@ -76,20 +88,20 @@ class App extends Component {
               <br></br>
               <a
                 className="btn btn--loginApp-link"
-                href={() =>
-                  this.setState({
-                    token: 'poetry'
-                  })
-                } // eventually this will be a different ajax call
+                onClick={ this.onPoetry }
+                href={"javascript:void(0)"}
               >
               <i class="fas fa-pencil-alt"></i> FREESTYLE
               </a>
             </>
           )}
-          {this.state.token && (this.state.token == 'poetry') && console.log(this.state.token) && (
-            <p>This would be the poetry component</p>
+          {this.state.token && (this.state.token == 'poetry') && (
+            <>
+              <p>Enter your bars below!</p>
+              <PoetryVisualizer />
+            </>
           )}
-          {this.state.token && (this.state.token != 'poetry') && (
+          {this.state.token && (!this.state.token == 'poetry') && (
             <Player
               item={this.state.item}
               is_playing={this.state.is_playing}
