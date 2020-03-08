@@ -28,7 +28,7 @@ class App extends Component {
       lyrics: ""
     };
     this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
-
+    this.onPoetry = this.onPoetry.bind(this);
     this.pingSpotify();
     this.interval = setInterval(this.pingSpotify.bind(this), 3000);
   }
