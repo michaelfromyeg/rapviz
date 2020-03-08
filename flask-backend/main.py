@@ -1,4 +1,4 @@
-from flask import request, Flask, jsonify
+from flask import request, Flask, jsonify, render_template
 from song import Song
 import json
 
@@ -6,7 +6,7 @@ app = Flask("__main__")
 
 @app.route("/")
 def my_index():
-    return flask.render_template("index.html", token="hello world")
+    return render_template("index.html", token="hello world")
 
 @app.route("/song", methods=['GET'])
 def song():
