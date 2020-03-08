@@ -1,13 +1,6 @@
-Be sure to check out the blog posts-
+# RapViz
+## Visualize your barzzz
+## Project built for HackTech 2020
 
-1. https://realpython.com/blog/python/the-ultimate-flask-front-end/
-1. https://realpython.com/blog/python/the-ultimate-flask-front-end-part-2/
-
-https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
-
-
-pip install -r requirements.txt
-npm i
-bower i
-npm install --global bower
-run the app with the bash script (sh run.sh)
+### Run the app
+To run the app, first `cd react-frontend` and `run npm i` to install the necessary Node dependencies. Then, run `pip install flask` to make sure you have Flask installed. Finally, navigate to the project root and run the bash file by calling `sh run.sh`.
