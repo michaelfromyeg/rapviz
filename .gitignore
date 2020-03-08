@@ -132,4 +132,4 @@ htmlcov/
 *,cover
 
 #ignore generated react build
-flask-backend/static/react/
+flask-backend/static/
