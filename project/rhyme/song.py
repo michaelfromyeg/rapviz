@@ -61,7 +61,7 @@ class Song:
 
 
   # [Words] -> [[Clusters of words that rhyme with one another]]
-  def findAllRhymeClusters(self):
+  def find_all_rhyme_clusters(self):
       allRhymeClusters = []
       for word in self.lyrics_array:
           allRhymeClusters = self.checkCluster(word, allRhymeClusters)
@@ -82,9 +82,6 @@ class Song:
 
     
 
-s = Song("""A wise old owl lived in an oak
-The more he saw the less he spoke
-The less he spoke the more he heard.
-Why can't we all be like that wise old bird?""")
+s = Song("Roses are red violets are blue jack is you hack is true")
 
-print(s.findAllRhymeClusters())
+print(s.find_all_rhyme_clusters())
