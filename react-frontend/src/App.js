@@ -1,82 +1,106 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import * as $ from "jquery";
+import { authEndpoint, clientId, redirectUri, scopes } from "./config";
+import hash from "./hash";
+import Player from "./Player";
+import logo from "./logo.svg";
+import "./App.css";
+import header from './rapviz-logo-textonly-01.png'
 
-import {TextField, Button, Container, Typography} from '@material-ui/core';
-import generateRhymes from './util/generateWords';
-import Word from './components/RhymeVisualizer/Word'
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+class App extends Component {
+  constructor() {
+    super();
     this.state = {
-      lyrics: "",
-      result: []
+      token: null,
+      item: {
+        album: {
+          images: [{ url: "" }]
+        },
+        name: "",
+        artists: [{ name: "" }],
+        duration_ms: 0
+      },
+      is_playing: "Paused",
+      progress_ms: 0
     };
-    this.updateLyrics = this.updateLyrics.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
+  }
+  componentDidMount() {
+    // Set token
+    let _token = hash.access_token;
+
+    if (_token) {
+      // Set token
+      this.setState({
+        token: _token
+      });
+      this.getCurrentlyPlaying(_token);
+    }
   }
 
-  updateLyrics(e) {
-    this.setState({
-      lyrics: e.target.value
-    })
-  }
-
-  handleSubmit() {
-    let { lyrics } = this.state;
-
-    axios.get('/song', {
-      params: {
-        lyrics: lyrics
-      }
-    })
-      .then(res => {
-        // handle success
+  getCurrentlyPlaying(token) {
+    // Make a call using the token
+    $.ajax({
+      url: "https://api.spotify.com/v1/me/player",
+      type: "GET",
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      success: data => {
         this.setState({
-          result: res.data
+          item: data.item,
+          is_playing: data.is_playing,
+          progress_ms: data.progress_ms
         });
-      })
+      }
+    });
   }
 
   render() {
-    let output = [];
-    for (let array of generateRhymes(this.state.lyrics, this.state.result)) {
-      let wordComponents = array.map(word => {
-        return <Word color={word.color} word={word.text} />
-      });
-      output = output.concat(wordComponents);
-      output.push(<br />);
-    }
     return (
       <div className="App">
-        <Container>
-        <Typography variant="h1" component="h2">
-          RapViz
-        </Typography>
-          <section className="input">
-            <TextField
-              id="outlined-multiline-static"
-              label="Song Lyrics"
-              multiline
-              rows="4"
-              defaultValue="Enter your song lyrics here!"
-              variant="outlined"
-              onChange={this.updateLyrics}
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <img src={header} width="25%" className="Header-text" alt="header" />
+          {!this.state.token && (
+            <>
+              <h1>Welcome to RapViz!</h1>
+              <a
+                className="btn btn--loginApp-link"
+                href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+                  "%20"
+                )}&response_type=token&show_dialog=true`}
+              >
+              <i class="fab fa-spotify"></i> SPOTIFY
+              </a>
+              <br></br>
+              <a
+                className="btn btn--loginApp-link"
+                href={() =>
+                  this.setState({
+                    token: 'poetry'
+                  })
+                } // eventually this will be a different ajax call
+              >
+              <i class="fas fa-pencil-alt"></i> FREESTYLE
+              </a>
+            </>
+          )}
+          {this.state.token && (this.state.token == 'poetry') && console.log(this.state.token) && (
+            <p>This would be the poetry component</p>
+          )}
+          {this.state.token && (this.state.token != 'poetry') && (
+            <Player
+              item={this.state.item}
+              is_playing={this.state.is_playing}
+              progress_ms={this.progress_ms}
             />
-            <br />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSubmit}>
-              Analyze Rhymes!
-            </Button>
-          </section>
-          <section className="output">
-            {output}
-          </section>
-        </Container>
+          )}
+          <div className="Footer-div">
+            <p className="Footer-text">Bringing the <em>fire</em> to firebase</p>
+            <p className="Footer-text">&copy; 2020 RapViz. Built for HackTech 2020</p>
+          </div>
+        </header>
       </div>
     );
   }
