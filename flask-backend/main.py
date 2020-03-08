@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import lyricsgenius
+from song import Song
+import json
 
 app = Flask("__main__")
 
@@ -16,5 +18,11 @@ def get_lyrics():
                 message= "Success",
                 statusCode= 200,
                 data= data)
+
+@app.route("/song", methods=['GET'])
+def song():
+    lyrics = request.args.get('lyrics')
+    song = Song(lyrics)
+    return json.dumps(song.find_all_rhyme_clusters())
 
 app.run(debug=True)

@@ -1,5 +1,3 @@
-cd react-frontend
-npm run build
-cd ..
-cd flask-backend
-python main.py
+python $PWD/flask-backend/main.py &
+cd $PWD/react-frontend
+npm run build &
