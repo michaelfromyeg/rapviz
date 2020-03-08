@@ -11,7 +11,8 @@ class Song:
     """
     self.api = datamuse.Datamuse()
     self.lyrics = lyrics
-    self.lyrics_array = re.split("[ |\n]", lyrics)
+    replace_all_punc = re.sub("[.,:?!;]","", self.lyrics)
+    self.lyrics_array = re.split("[ |\n]", replace_all_punc)
     self.rhymes = self.generate_rhymes(self.lyrics_array)
     # print(self.lyrics_array)
 
@@ -81,17 +82,9 @@ class Song:
 
     
 
-s = Song("""I'm beginning to feel like a Rap God, Rap God
-All my people from the front to the back nod, back nod
-Now who thinks their arms are long enough to slap box, slap box?
-They said I rap like a robot, so call me Rapbot
-But for me to rap like a computer must be in my genes
-I got a laptop in my back pocket
-My pen'll go off when I half-cock it
-Got a fat knot from that rap profit
-Made a living and a killing off it
-Ever since Bill Clinton was still in office
-With Monica Lewinsky feeling on his nut-sack
-I'm an MC still as honest""")
+s = Song("""A wise old owl lived in an oak
+The more he saw the less he spoke
+The less he spoke the more he heard.
+Why can't we all be like that wise old bird?""")
 
 print(s.findAllRhymeClusters())
