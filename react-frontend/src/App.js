@@ -25,10 +25,12 @@ class App extends Component {
       progress_ms: 0
     };
     this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
-    this.onPoetry = this.onPoetry.bind(this);
+
+    this.pingSpotify();
+    this.interval = setInterval(this.pingSpotify.bind(this), 3000);
   }
 
-  componentDidMount() {
+  pingSpotify() {
     // Set token
     let _token = hash.access_token;
 

@@ -5,24 +5,32 @@ import json
 
 app = Flask("__main__")
 
+
 @app.route("/")
 def my_index():
     return render_template("index.html", token="hello world")
 
-@app.route("/lyrics", methods=["GET"])
-def get_lyrics():
-    song_name = request.args.get()
-    
-    
-    return jsonify(isError= False,
-                message= "Success",
-                statusCode= 200,
-                data= data)
+
+@app.route("/lyrics/<artist>/<song_name>", methods=["GET"])
+def get_lyrics(artist, song_name):
+    request.is_xhr = True
+
+    genius = lyricsgenius.Genius(
+        "CRjhz6BZQCGb_mMvUiz2sTCpbgM9eKrZSSWWn24iq4QnZrc-DyNvvjWoB1YVBdX2")
+
+    song = genius.search_song(song_name, artist)
+    data = song.lyrics
+    return jsonify(isError=False,
+                   message="Success",
+                   statusCode=200,
+                   data=data)
+
 
 @app.route("/song", methods=['GET'])
 def song():
     lyrics = request.args.get('lyrics')
     song = Song(lyrics)
     return json.dumps(song.find_all_rhyme_clusters())
+
 
 app.run(debug=True)
