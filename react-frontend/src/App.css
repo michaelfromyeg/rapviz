@@ -3,13 +3,19 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
 }
 
+h1 {
+  margin:10px;
+}
+
+.Header-text {
+  width: 25%;
+}
+
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -20,7 +26,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #FF6D00;
 }
 
 @keyframes App-logo-spin {
@@ -43,10 +49,12 @@ html, body {
 }
 
 body {
-  background-color: #333;
   color: #eee;
-  font-family: Helvetica, Arial;
+  font-family: 'Sen', sans-serif;
   font-size: 3vmin;
+  background: linear-gradient(-45deg, #801100, #B62203, #D73502, #FC6400);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
 .hidden {
@@ -58,17 +66,18 @@ body {
 .btn {
   background-color: transparent;
   border-radius: 2em;
-  border: 0.2em solid #1ecd97;
-  color: #1ecd97;
+  border: 0.2em solid #FF6D00;
+  color: #FF6D00;
   cursor: pointer;
   font-size: 3vmin;
   padding: 0.7em 1.5em;
-  text-transform: uppercase;
   transition: all 0.25s ease;
+  text-decoration: none;
+  width: 250px;
 }
 
 .btn:hover {
-  background: #1ecd97;
+  background: #FF6D00;
   color: #333;
 }
 
@@ -109,4 +118,24 @@ body {
 
 .main-container {
   flex: 1;
+}
+
+.Footer-div {
+  margin:15px;
+}
+
+.Footer-text {
+  font-size: 10px;
+}
+
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }

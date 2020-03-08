@@ -5,6 +5,7 @@ import hash from "./hash";
 import Player from "./Player";
 import logo from "./logo.svg";
 import "./App.css";
+import header from './rapviz-logo-textonly-01.png'
 
 class App extends Component {
   constructor() {
@@ -60,23 +61,45 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <img src={header} width="25%" className="Header-text" alt="header" />
           {!this.state.token && (
-            <a
-              className="btn btn--loginApp-link"
-              href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-                "%20"
-              )}&response_type=token&show_dialog=true`}
-            >
-              Login to Spotify
-            </a>
+            <>
+              <h1>Welcome to RapViz!</h1>
+              <a
+                className="btn btn--loginApp-link"
+                href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+                  "%20"
+                )}&response_type=token&show_dialog=true`}
+              >
+              <i class="fab fa-spotify"></i> SPOTIFY
+              </a>
+              <br></br>
+              <a
+                className="btn btn--loginApp-link"
+                href={() =>
+                  this.setState({
+                    token: 'poetry'
+                  })
+                } // eventually this will be a different ajax call
+              >
+              <i class="fas fa-pencil-alt"></i> FREESTYLE
+              </a>
+            </>
           )}
-          {this.state.token && (
+          {this.state.token && (this.state.token == 'poetry') && console.log(this.state.token) && (
+            <p>This would be the poetry component</p>
+          )}
+          {this.state.token && (this.state.token != 'poetry') && (
             <Player
               item={this.state.item}
               is_playing={this.state.is_playing}
               progress_ms={this.progress_ms}
             />
           )}
+          <div className="Footer-div">
+            <p className="Footer-text">Bringing the <em>fire</em> to firebase</p>
+            <p className="Footer-text">&copy; 2020 RapViz. Built for HackTech 2020</p>
+          </div>
         </header>
       </div>
     );
