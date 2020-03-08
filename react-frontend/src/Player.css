@@ -17,7 +17,7 @@
     float: left;
     margin-right: 10px;
     text-align: right;
-    width: 45%;
+    width: 85%;
 }
 
 .now-playing__img img {
@@ -26,8 +26,7 @@
 }
 
 .now-playing__side {
-    margin-left: 5%;
-    width: 45%;
+    width: 85%;
 }
 
 /** Progress **/

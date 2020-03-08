@@ -1,23 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 
-import {Button} from '@material-ui/core';
 import generateRhymes from '../../util/generateWords';
 import Word from '../../components/RhymeVisualizer/Word'
 
 class RhymeVisualizer extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
-      lyrics: props.lyrics,
       result: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit() {
-    let { lyrics } = this.state;
+    let { lyrics } = this.props;
 
     axios.get('/song', {
       params: {
@@ -34,7 +31,7 @@ class RhymeVisualizer extends React.Component {
 
   render() {
     let output = [];
-    for (let array of generateRhymes(this.state.lyrics, this.state.result)) {
+    for (let array of generateRhymes(this.props.lyrics, this.state.result)) {
       let wordComponents = array.map(word => {
         return <Word color={word.color} word={word.text} />
       });
@@ -42,15 +39,18 @@ class RhymeVisualizer extends React.Component {
       output.push(<br />);
     }
     return (
-      <section className="output">
-        {output}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.handleSubmit}>
-          Analyze Rhymes!
-        </Button>
-      </section>
+      <div className="visualizer">
+        <a
+          className="btn btn--loginApp-link Submit-lyrics"
+          onClick={ this.handleSubmit }
+          href={"javascript:void(0)"}
+        >
+          <i class="fas fa-robot"></i> ANALYZE YO' RHYMES
+        </a>
+        <section className="output">
+          {output}
+        </section>
+      </div>
     );
   }
 }

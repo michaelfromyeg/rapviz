@@ -29,7 +29,6 @@ const Player = props => {
           <div className="progress__bar" style={progressBarStyles} />
         </div>
       </div>
-      <div className="background" style={backgroundStyles} />{" "}
     </div>
   );
 }

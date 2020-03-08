@@ -60,6 +60,7 @@ class App extends Component {
           axios.get(`/lyrics/${data.item.artists[0].name}/${data.item.name}`)
             .then(res => {
               // handle success
+              console.log(res.data)
               this.setState({
                 lyrics: res.data.data
               });
@@ -117,7 +118,7 @@ class App extends Component {
               <PoetryVisualizer />
             </>
           )}
-          {this.state.token && (!this.state.token == 'poetry') && (
+          {this.state.token && (this.state.token != 'poetry') && (
             <div className="flex-colmn">
             <Player
               item={this.state.item}

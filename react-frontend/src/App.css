@@ -102,11 +102,12 @@ body {
   align-items: center;
   display: flex;
   height: 100%;
-  margin: 0 auto;
   justify-content: center;
   position: relative;
-  width: 80%;
+  width: 20%;
   z-index: 1;
+  flex-direction: column;
+  margin-left: 25px;
 }
 
 .container {
@@ -165,8 +166,11 @@ input {
   margin: 30px 0 30px 0;
 }
 
-output {
-  margin: 30px 0 30px 0;
+.output {
+  overflow-y: scroll;
+  height: 45vh;
+  margin-right: 25px;
+  margin-top: 25px;
 }
 
 .Enter-bars {
@@ -179,4 +183,9 @@ output {
 
 .Submit-lyrics {
   margin-bottom: 50px;
+}
+
+.visualizer {
+  flex-grow: 1;
+  margin-top: 15px;
 }

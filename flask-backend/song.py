@@ -11,7 +11,7 @@ class Song:
     """
     self.api = datamuse.Datamuse()
     self.lyrics = lyrics
-    replace_all_punc = re.sub("[.,:?!;]","", self.lyrics)
+    replace_all_punc = re.sub("[.,:?!;\-()']","", self.lyrics)
     self.lyrics_array = re.split("[ |\n]", replace_all_punc)
     self.rhymes = self.generate_rhymes(self.lyrics_array)
     # print(self.lyrics_array)
