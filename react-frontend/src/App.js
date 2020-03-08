@@ -6,6 +6,8 @@ import Player from "./Player";
 import logo from "./logo.svg";
 import "./App.css";
 import header from './rapviz-logo-textonly-01.png'
+import RhymeVisualizer from './components/RhymeVisualizer/RhymeVisualizer';
+import axios from 'axios';
 
 class App extends Component {
   constructor() {
@@ -21,7 +23,8 @@ class App extends Component {
         duration_ms: 0
       },
       is_playing: "Paused",
-      progress_ms: 0
+      progress_ms: 0,
+      lyrics: ""
     };
     this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
 
@@ -51,6 +54,17 @@ class App extends Component {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
       },
       success: data => {
+        if(data.item !== null && data.item.name != this.state.item.name) {
+          // check if song is different than current song
+          axios.get(`/lyrics/${data.item.artists[0].name}/${data.item.name}`)
+            .then(res => {
+              // handle success
+              this.setState({
+                lyrics: res.data.data
+              });
+            })
+        }
+
         this.setState({
           item: data.item,
           is_playing: data.is_playing,
@@ -94,11 +108,14 @@ class App extends Component {
             <p>This would be the poetry component</p>
           )}
           {this.state.token && (this.state.token != 'poetry') && (
-            <Player
-              item={this.state.item}
-              is_playing={this.state.is_playing}
-              progress_ms={this.progress_ms}
-            />
+            <div className="flex-colmn">
+              <Player
+                item={this.state.item}
+                is_playing={this.state.is_playing}
+                progress_ms={this.progress_ms}
+              />
+              <RhymeVisualizer lyrics={this.state.lyrics}/>
+            </div>
           )}
           <div className="Footer-div">
             <p className="Footer-text">Bringing the <em>fire</em> to firebase</p>

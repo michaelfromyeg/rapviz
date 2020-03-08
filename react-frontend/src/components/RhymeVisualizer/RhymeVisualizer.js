@@ -1,15 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import axios from 'axios';
 
 import {Button} from '@material-ui/core';
-import generateRhymes from './util/generateWords';
-import Word from './components/RhymeVisualizer/Word'
+import generateRhymes from '../../util/generateWords';
+import Word from '../../components/RhymeVisualizer/Word'
 
 class RhymeVisualizer extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       lyrics: props.lyrics,
       result: []
@@ -56,4 +55,4 @@ class RhymeVisualizer extends React.Component {
   }
 }
 
-export default App;
+export default RhymeVisualizer;

@@ -2,6 +2,7 @@ from flask import request, Flask, jsonify, render_template, jsonify
 import lyricsgenius
 from song import Song
 import json
+import re
 
 app = Flask("__main__")
 
@@ -19,7 +20,7 @@ def get_lyrics(artist, song_name):
         "CRjhz6BZQCGb_mMvUiz2sTCpbgM9eKrZSSWWn24iq4QnZrc-DyNvvjWoB1YVBdX2")
 
     song = genius.search_song(song_name, artist)
-    data = song.lyrics
+    data = re.sub(r" ?\[[^\]]+\]", "", song.lyrics)
     return jsonify(isError=False,
                    message="Success",
                    statusCode=200,
