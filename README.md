@@ -3,7 +3,7 @@
 
 ### About
 
-There are loads of videos online that inspired this project. Take a look a Genius' [Check The Rhyme](https://www.youtube.com/watch?v=1VNHp_flJKE) or [Vox's Rap Deconstructed](https://www.youtube.com/watch?v=QWveXdj6oZU). These videos get millions, and I mean millions of hits online. Why? Well, it's damn fun! And it's cool. We thought we could leverage NLP, a couple of freely available APIs, and some basic React so create a website that generates these kinds of 'highlighted' rhymes. So what happened?
+There are loads of videos online that inspired this project. Take a look a Genius' [Check The Rhyme](https://www.youtube.com/watch?v=1VNHp_flJKE) or [Vox's Rap Deconstructed](https://www.youtube.com/watch?v=QWveXdj6oZU). These videos get millions, and I mean millions of hits online. Why? Well, it's damn fun! And it's cool. We thought we could leverage NLP, a couple of free APIs, and some basic React to create a website that generates these kinds of 'highlighted' rhymes. So what happened?
 
 ### Run the app on your machine
 
