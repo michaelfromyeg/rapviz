@@ -46,5 +46,5 @@ def find_rhymes():
 
     return json.dumps(song_instance.find_all_rhyme_clusters())
 
-
-app.run(debug=IS_DEVELOPMENT)
+if __name__ == '__main__':
+    app.run(host=os.getenv("HOST", "0.0.0.0"), port=os.getenv("PORT", "8000"), debug=IS_DEVELOPMENT)
