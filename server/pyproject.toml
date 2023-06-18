@@ -1,0 +1,22 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+exclude = "env/"
+
+[tool.isort]
+profile = "black"
+skip_glob = ["env/**"]
+
+[tool.pylint]
+disable = "missing-module-docstring,missing-function-docstring"
+
+[tool.mypy]
+python_version = 3.11
+strict_optional = "True"
+warn_unused_configs = "True"
+
+[tool.mypy-lyricsgenius]
+ignore_missing_imports = true
+
+[tool.mypy-datamuse]
+ignore_missing_imports = true

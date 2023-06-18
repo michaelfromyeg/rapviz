@@ -1,18 +1,81 @@
-# RapViz
-## Visualize your bars right in the browser
+# rapviz 🔥
 
-### About
+_Visualize your bars right in the browser!_
 
-There are loads of videos online that inspired this project. Take a look a Genius' [Check The Rhyme](https://www.youtube.com/watch?v=1VNHp_flJKE) or [Vox's Rap Deconstructed](https://www.youtube.com/watch?v=QWveXdj6oZU). These videos get millions, and I mean millions of hits online. Why? Well, it's damn fun! And it's cool. We thought we could leverage NLP, a couple of free APIs, and some basic React to create a website that generates these kinds of 'highlighted' rhymes. So what happened?
+- [rapviz 🔥](#rapviz-)
+  - [About](#about)
+  - [Usage](#usage)
+    - [Client](#client)
+    - [Server](#server)
+  - [See more](#see-more)
 
-### Run the app on your machine
+## About
 
-To run the app, first `cd react-frontend` and `run npm i` to install the necessary Node dependencies. Then, run `pip install flask` to make sure you have Flask installed. Finally, navigate to the project root and run the bash file by calling `sh run.sh`.
+This project was inspired by one of my favourite YouTube trends, the "rap visualizer" video. Take a look a Genius' [Check The Rhyme](https://youtube.com/watch?v=1VNHp_flJKE) or [Vox's Rap Deconstructed](https://youtube.com/watch?v=QWveXdj6oZU) as examples. We thought we could leverage NLP, a couple of free APIs, and some basic React to create a website that generates these kinds of 'highlighted' rhymes. Introducing: `rapviz`!
 
-### How it's made
+The app consists of a Flask REST server. This API interfaces with Genuis, and does a bit of work to produce a rhyme response the frontend understands. The frontend allows the user to connect to Spotify and detects what song they're currently listening to. It then visualizes the rhymes. Deployment is done via Railway.
 
-We used a Flask backend to write a couple of endpoints to help us LyricsGenius, an API for scraping lyrics from Genius. We also wrote our NLP-based rhyme detection algorithm in Python and processed all of that data on the backend. Spotify authentication and the UI was all handled by React. We eventually deployed our app to Google Cloud so other users could try it.
+## Usage
 
-### Elsewhere on the internet
+Head to `<URL>` to try it out!
 
-You can see our DevPost submission [here](https://devpost.com/software/rapviz-breakdown-your-favourite-lyricist-s-rhyme-schemes), or try the project [here](https://rapviz.appspot.com/).
+To run the app locally, see the below instructions for the client and server code.
+
+### Client
+
+The client is written in React, and uses `create-react-app`. Its dependencies are as follows.
+
+- `node`, `>=v18.16.0`
+- `npm`, `>=v9.5.1`
+- `yarn` (preferred over `npm`), `>=v1.22.19`
+- (optional) `nvm`, `>=v0.39.2`
+
+To get setup, run the following commands.
+
+```plaintext
+$ cd client
+> (now at **/rapviz/client)
+
+$ yarn
+> yarn install v1.22.19
+> ...
+
+$ yarn start
+> yarn run v1.22.19
+> ...
+>
+```
+
+### Server
+
+The server is a simple Flask app. Its dependencies are as follows.
+
+- `python@3.11`, `>=3.11.4`
+
+To get setup, run the following commands.
+
+```plaintext
+$ cd server
+> (now at **/rapviz/server)
+
+$ python3 -m venv env
+> (creates a virtual environment called `env`)
+
+$ source env/bin/activate
+> (activates said enviornment)
+
+$ which pip
+> $HOME/rapviz/server/env/bin/pip
+
+$ pip install -r requirements.txt
+> (install the dependencies)
+
+$ python -m main.py
+> (run the server)
+```
+
+## See more
+
+- [The original DevPost submission](https://devpost.com/software/rapviz-breakdown-your-favourite-lyricist-s-rhyme-schemes)
+- [Project write-up](https://michaeldemar.co/projects/rapviz)
+- [Try it out](https://example.com)
