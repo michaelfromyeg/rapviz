@@ -11,7 +11,7 @@ export const authEndpoint = "https://accounts.spotify.com/authorize";
 export const clientId = "9f19d3f83c3a493cadd7f4cf1ab8661d";
 export const redirectUri = isDevelopment
   ? "http://localhost:3000/"
-  : "https://michaelfromyeg.github.io/rapviz/";
+  : "https://rapviz.michaeldemar.co/";
 export const scopes = [
   "user-top-read",
   "user-read-currently-playing",
