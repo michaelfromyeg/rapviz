@@ -10,14 +10,11 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      # TODO: investigate why this is needed!
-      - name: Whoami
-        run: git config --global user.email "github-actions[bot]@users.noreply.github.com" && git config --global user.name "github-actions"
       - name: Install Packages
         run: cd client && yarn install
       - name: Deploy to GitHub Pages
