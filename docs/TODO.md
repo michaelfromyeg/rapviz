@@ -4,3 +4,4 @@
 - [ ] `CONTRIBUTING.md`
 - [ ] `CHANGELOG.md`
 - [ ] Remove "whoami" step from `deploy.yml`
+- [ ] Better CORS in server

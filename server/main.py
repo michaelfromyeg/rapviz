@@ -4,16 +4,21 @@ Main entry point for the Flask server.
 
 import json
 import re
+import os
 
 import lyricsgenius
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 from song import Song
 
-app = Flask("__main__")
+app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
+
+IS_DEVELOPMENT = os.getenv("PYTHON_ENV") == "development"
 
 
 @app.route("/lyrics/<artist>/<song_name>", methods=["GET"])
@@ -42,4 +47,4 @@ def find_rhymes():
     return json.dumps(song_instance.find_all_rhyme_clusters())
 
 
-app.run(debug=True)
+app.run(debug=IS_DEVELOPMENT)
