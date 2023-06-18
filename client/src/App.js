@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import * as $ from "jquery";
 import axios from "axios";
 
-import { serverEndpoint, authEndpoint, clientId, redirectUri, scopes } from "./config";
+import {
+  serverEndpoint,
+  authEndpoint,
+  clientId,
+  redirectUri,
+  scopes,
+} from "./config";
 import hash from "./hash";
 import Player from "./Player";
 
@@ -61,10 +67,16 @@ class App extends Component {
       success: (data) => {
         console.log({ data });
 
-        if (data && data.item !== null && data.item.name !== this.state.item.name) {
+        if (
+          data &&
+          data.item !== null &&
+          data.item.name !== this.state.item.name
+        ) {
           // check if song is different than current song
           axios
-            .get(`${serverEndpoint}/lyrics/${data.item.artists[0].name}/${data.item.name}`)
+            .get(
+              `${serverEndpoint}/lyrics/${data.item.artists[0].name}/${data.item.name}`
+            )
             .then((res) => {
               // handle success
               console.log(res.data);
@@ -110,13 +122,12 @@ class App extends Component {
                 <i class="fab fa-spotify"></i> SPOTIFY
               </a>
               <br></br>
-              <a
+              <button
                 className="btn btn--loginApp-link"
                 onClick={this.onPoetry}
-                href={"javascript:void(0)"}
               >
                 <i class="fas fa-pencil-alt"></i> FREESTYLE
-              </a>
+              </button>
             </>
           )}
           {this.state.token && this.state.token === "poetry" && (

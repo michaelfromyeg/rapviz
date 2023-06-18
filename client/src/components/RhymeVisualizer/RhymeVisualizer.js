@@ -49,14 +49,13 @@ class RhymeVisualizer extends React.Component {
     }
     return (
       <div className="visualizer">
-        <a
+        <button
           className="btn btn--loginApp-link Submit-lyrics"
           onClick={this.handleSubmit}
-          href={"javascript:void(0)"}
         >
           <i class="fas fa-robot"></i> ANALYZE YO' RHYMES{" "}
           {this.state.loading && <CircularProgress />}
-        </a>
+        </button>
         <section className="output">{output}</section>
       </div>
     );

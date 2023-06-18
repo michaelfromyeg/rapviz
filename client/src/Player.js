@@ -2,9 +2,9 @@ import React from "react";
 import "./Player.css";
 
 const Player = (props) => {
-  const backgroundStyles = {
-    backgroundImage: `url(${props.item.album.images[0].url})`,
-  };
+  // const backgroundStyles = {
+  //   backgroundImage: `url(${props.item.album.images[0].url})`,
+  // };
 
   const progressBarStyles = {
     width: (props.progress_ms * 100) / props.item.duration_ms + "%",
@@ -13,7 +13,7 @@ const Player = (props) => {
   return (
     <div className="main-wrapper">
       <div className="now-playing__img">
-        <img src={props.item.album.images[0].url} />
+        <img alt="Album cover" src={props.item.album.images[0].url} />
       </div>
       <div className="now-playing__side">
         <div className="now-playing__name">{props.item.name}</div>

@@ -60,13 +60,12 @@ class PoetryVisualizer extends React.Component {
             placeholder="Enter your lyrics here!"
           />
           <br />
-          <a
+          <button
             className="btn btn--loginApp-link Submit-lyrics"
             onClick={this.handleSubmit}
-            href={"javascript:void(0)"}
           >
             <i class="fas fa-robot"></i> ANALYZE YO' RHYMES
-          </a>
+          </button>
         </div>
         <br></br>
         <br></br>
