@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/rapviz/static/css/main.79997f6d.css",
-    "main.js": "/rapviz/static/js/main.aa034fec.js",
+    "main.js": "/rapviz/static/js/main.7be282a5.js",
     "static/media/text-logo.png": "/rapviz/static/media/text-logo.a51b80ce2bebedcce99a.png",
     "static/media/logo.svg": "/rapviz/static/media/logo.6675432276db30fe81334161655d4bfe.svg",
     "index.html": "/rapviz/index.html",
     "main.79997f6d.css.map": "/rapviz/static/css/main.79997f6d.css.map",
-    "main.aa034fec.js.map": "/rapviz/static/js/main.aa034fec.js.map"
+    "main.7be282a5.js.map": "/rapviz/static/js/main.7be282a5.js.map"
   },
   "entrypoints": [
     "static/css/main.79997f6d.css",
-    "static/js/main.aa034fec.js"
+    "static/js/main.7be282a5.js"
   ]
 }
