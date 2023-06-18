@@ -20,6 +20,10 @@ load_dotenv()
 
 IS_DEVELOPMENT = os.getenv("PYTHON_ENV") == "development"
 
+GENIUS_TOKEN = os.getenv("GENIUS_ACCESS_TOKEN")
+
+genius = lyricsgenius.Genius(GENIUS_TOKEN)
+
 
 @app.route("/lyrics/<artist>/<song_name>", methods=["GET"])
 def get_lyrics(artist, song_name):
@@ -27,11 +31,6 @@ def get_lyrics(artist, song_name):
     Return the lyrics for a particular song.
     """
     request.is_xhr = True
-
-    if os.getenv("GENIUS_ACCESS_TOKEN") is None:
-        return jsonify(isError=True, message="Genius API key not set", statusCode=500)
-
-    genius = lyricsgenius.Genius()
 
     genuis_song = genius.search_song(song_name, artist)
     data = re.sub(r" ?\[[^\]]+\]", "", genuis_song.lyrics)
@@ -51,8 +50,11 @@ def find_rhymes():
 
 
 if __name__ == "__main__":
+    if IS_DEVELOPMENT:
+        genius.verbose = True
+
     app.run(
         host=os.getenv("HOST", "0.0.0.0"),
-        port=os.getenv("PORT", "8000"),
+        port=os.getenv("PORT", "5000"),
         debug=IS_DEVELOPMENT,
     )
