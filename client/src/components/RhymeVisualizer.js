@@ -12,7 +12,9 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }) => {
     try {
       setIsLoading(true);
 
-      const response = await fetch(`${serverEndpoint}/song?lyrics=${encodedLyrics}`);
+      const response = await fetch(
+        `${serverEndpoint}/song?lyrics=${encodedLyrics}`
+      );
 
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -27,10 +29,13 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }) => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const encodedLyrics = useMemo(() => encodeURIComponent(lyrics), [lyrics]);
-  const rhymeOutput = useMemo(() => buildRhymeOutput(lyrics, rhymes), [lyrics, rhymes]);
+  const rhymeOutput = useMemo(
+    () => buildRhymeOutput(lyrics, rhymes),
+    [lyrics, rhymes]
+  );
 
   if (!lyrics) {
     return null;
@@ -39,10 +44,7 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }) => {
   return (
     <div className="visualizer">
       <h3>Go listen to something!</h3>
-      <button
-        className="btn btn--loginApp-link"
-        onClick={onBack}
-      >
+      <button className="btn btn--loginApp-link" onClick={onBack}>
         BACK
       </button>
       <button
@@ -54,17 +56,11 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }) => {
       </button>
       {isLoading && <p className="loading">(one sec...)</p>}
       <div className="rap-wrapper">
-        <Player
-          item={item}
-          isPlaying={isPlaying}
-          progressMs={progressMs}
-        />
+        <Player item={item} isPlaying={isPlaying} progressMs={progressMs} />
         <section className="output">{rhymeOutput}</section>
       </div>
-
-
     </div>
   );
-}
+};
 
 export default RhymeVisualizer;

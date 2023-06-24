@@ -11,10 +11,11 @@ import generateRhymes from "../util/generateWords";
 export const buildRhymeOutput = (lyrics, rhymes) => {
   console.log("Combining rhymes with lyrics for output...");
   console.log({
-    lyrics, rhymes
+    lyrics,
+    rhymes,
   });
 
-  const lyricsWithRhymes = generateRhymes(lyrics, rhymes)
+  const lyricsWithRhymes = generateRhymes(lyrics, rhymes);
 
   let retval = [];
   for (const array of lyricsWithRhymes) {
@@ -27,4 +28,4 @@ export const buildRhymeOutput = (lyrics, rhymes) => {
   }
 
   return retval;
-}
+};

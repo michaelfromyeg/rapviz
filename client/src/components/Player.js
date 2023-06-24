@@ -3,7 +3,12 @@ import React from "react";
 import "../styles/Player.css";
 
 const Player = (props) => {
-  if (!props.item || !props.item.album || !props.item.album.images || !props.item.album.images[0]) {
+  if (
+    !props.item ||
+    !props.item.album ||
+    !props.item.album.images ||
+    !props.item.album.images[0]
+  ) {
     console.warn("Missing item");
     return null;
   }

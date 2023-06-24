@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 // TODO(michaelfromyeg): normalize CSS using a better CSS library, instead
-import Normalize from 'react-normalize';
+import Normalize from "react-normalize";
 
-import {
-  serverEndpoint,
-} from "./config";
+import { serverEndpoint } from "./config";
 import hash from "./util/hash";
-import Player from "./components/Player";
 
 import Header from "./components/Header";
 import Welcome from "./components/Welcome";
@@ -16,7 +13,6 @@ import RhymeVisualizer from "./components/RhymeVisualizer";
 import Footer from "./components/Footer";
 
 import "./styles/global.css";
-
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -40,7 +36,7 @@ const App = () => {
 
     if (_token) {
       // Set token
-      console.log(`Setting token to ${_token}...`)
+      console.log(`Setting token to ${_token}...`);
 
       setToken(_token);
     }
@@ -83,7 +79,7 @@ const App = () => {
       }
 
       if (response.status === 404) {
-        throw new Error("Could not find lyrics!")
+        throw new Error("Could not find lyrics!");
       }
 
       if (response.statsu === 204) {
@@ -113,10 +109,12 @@ const App = () => {
       if (!item || !item.artists || !item.artists[0] || !item.name) {
         console.warn("No song playing or missing data to find lyrics");
         return;
-      };
+      }
 
       try {
-        const response = await fetch(`${serverEndpoint}/lyrics/${item.artists[0].name}/${item.name}`)
+        const response = await fetch(
+          `${serverEndpoint}/lyrics/${item.artists[0].name}/${item.name}`
+        );
 
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -130,27 +128,24 @@ const App = () => {
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     getLyrics();
   }, [item]);
 
-
   const onPoetry = () => {
     setToken("poetry");
-  }
+  };
 
   const onBack = () => {
     setToken(null);
-  }
+  };
 
   return (
     <div className="app">
       <Normalize />
       <Header />
-      {!token && (
-        <Welcome onPoetry={onPoetry} />
-      )}
+      {!token && <Welcome onPoetry={onPoetry} />}
       {token && token === "poetry" && (
         <>
           {/* TODO(michaelfromyeg): rename; add song search (without Spotify) */}
@@ -158,11 +153,17 @@ const App = () => {
         </>
       )}
       {token && token !== "poetry" && (
-        <RhymeVisualizer item={item} isPlaying={isPlaying} progressMs={progressMs} onBack={onBack} lyrics={lyrics} />
+        <RhymeVisualizer
+          item={item}
+          isPlaying={isPlaying}
+          progressMs={progressMs}
+          onBack={onBack}
+          lyrics={lyrics}
+        />
       )}
       <Footer />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,9 +1,4 @@
-import {
-  authEndpoint,
-  clientId,
-  redirectUri,
-  scopes,
-} from "../config";
+import { authEndpoint, clientId, redirectUri, scopes } from "../config";
 
 const Welcome = ({ onPoetry }) => {
   return (
@@ -17,14 +12,11 @@ const Welcome = ({ onPoetry }) => {
       >
         SPOTIFY
       </a>
-      <button
-        className="btn btn--loginApp-link"
-        onClick={onPoetry}
-      >
+      <button className="btn btn--loginApp-link" onClick={onPoetry}>
         FREESTYLE
       </button>
     </div>
-  )
-}
+  );
+};
 
 export default Welcome;

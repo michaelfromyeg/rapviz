@@ -10,7 +10,7 @@ const PoetryVisualizer = ({ onBack }) => {
 
   const handleLyrics = (e) => {
     setLyrics(e.target.value);
-  }
+  };
 
   /**
    * When the user submits the form, send the lyrics to the server and get the
@@ -21,7 +21,9 @@ const PoetryVisualizer = ({ onBack }) => {
       setIsLoading(true);
 
       // TODO(michaelfromyeg): move the lyrics out of the URL?! WTF!
-      const response = await fetch(`${serverEndpoint}/song?lyrics=${encodeURIComponent(lyrics)}`);
+      const response = await fetch(
+        `${serverEndpoint}/song?lyrics=${encodeURIComponent(lyrics)}`
+      );
 
       console.log(response);
 
@@ -38,17 +40,17 @@ const PoetryVisualizer = ({ onBack }) => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
-  const rhymeOutput = useMemo(() => buildRhymeOutput(lyrics, rhymes), [lyrics, rhymes])
+  const rhymeOutput = useMemo(
+    () => buildRhymeOutput(lyrics, rhymes),
+    [lyrics, rhymes]
+  );
 
   return (
     <div className="freestyle">
       <h3>Write some lyrics!</h3>
-      <button
-        className="btn btn--loginApp-link"
-        onClick={onBack}
-      >
+      <button className="btn btn--loginApp-link" onClick={onBack}>
         BACK
       </button>
       <button
@@ -67,7 +69,7 @@ const PoetryVisualizer = ({ onBack }) => {
       />
       <div className="output">{rhymeOutput}</div>
     </div>
-  )
-}
+  );
+};
 
 export default PoetryVisualizer;
