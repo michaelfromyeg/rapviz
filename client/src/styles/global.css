@@ -1,22 +1,93 @@
-.App {
+.app {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.welcome > button {
+  margin-top: 20px;
+}
+
+.welcome > a {
+  margin-top: 20px;
+
   text-align: center;
 }
 
-.App-logo {
-  height: 20vmin;
-  pointer-events: none;
+.freestyle, .visualizer {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
 }
 
-h1 {
-  margin:10px;
+.freestyle > button, .visualizer > button {
+  margin-top: 20px;
 }
 
-.Header-text {
-  width: 15%;
+.output {
+  height: 30%;
+  width: 70%;
+  overflow: scroll;
+
+  margin-bottom: 20px;
 }
+
+.freestyle > textarea {
+  width: 70%;
+
+  border: 5px solid white;
+  -webkit-box-shadow:
+    inset 0 0 8px  rgba(0,0,0,0.1),
+          0 0 16px rgba(0,0,0,0.1);
+  -moz-box-shadow:
+    inset 0 0 8px  rgba(0,0,0,0.1),
+          0 0 16px rgba(0,0,0,0.1);
+  box-shadow:
+    inset 0 0 8px  rgba(0,0,0,0.1),
+          0 0 16px rgba(0,0,0,0.1);
+  padding: 15px;
+  background: rgba(255,255,255,0.5);
+  margin: 30px 0 30px 0;
+}
+
+.loading {
+  margin-top: 20px;
+}
+
+.rap-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+}
+
+/**
+ * Below here is old, scary CSS. Try to delete, ASAP.
+ */
 
 .App-header {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,15 +192,16 @@ body {
   flex: 1;
 }
 
-.Footer-div {
-  margin:15px;
-  width:100%;
+.footer {
+  width: 100%;
   position: fixed;
   bottom: 0px;
-  text-align: center; /* This line is not needed but centers your text */
+  text-align: center;
+
+  margin-bottom: 10px;
 }
 
-.Footer-text {
+.footer-text {
   font-size: 10px;
 }
 
@@ -145,22 +217,22 @@ body {
   }
 }
 
-.flex-colmn {
+.flex-column {
   display: flex;
   flex-direction: row;
 }
 
 input {
-  border: 5px solid white; 
-  -webkit-box-shadow: 
+  border: 5px solid white;
+  -webkit-box-shadow:
     inset 0 0 8px  rgba(0,0,0,0.1),
-          0 0 16px rgba(0,0,0,0.1); 
-  -moz-box-shadow: 
+          0 0 16px rgba(0,0,0,0.1);
+  -moz-box-shadow:
     inset 0 0 8px  rgba(0,0,0,0.1),
-          0 0 16px rgba(0,0,0,0.1); 
-  box-shadow: 
+          0 0 16px rgba(0,0,0,0.1);
+  box-shadow:
     inset 0 0 8px  rgba(0,0,0,0.1),
-          0 0 16px rgba(0,0,0,0.1); 
+          0 0 16px rgba(0,0,0,0.1);
   padding: 15px;
   background: rgba(255,255,255,0.5);
   margin: 30px 0 30px 0;
@@ -181,18 +253,15 @@ input {
   display: block;
 }
 
-.Submit-lyrics {
-  margin-bottom: 50px;
-}
-
 .visualizer {
   flex-grow: 1;
   margin-top: 15px;
 }
+
 .MuiCircularProgress-indeterminate {
   width: 35px!important;
   height: 35px!important;
   position: relative!important;
   top: 9px!important;
-  color: inherit!importat;
+  color: inherit;
 }

@@ -1,163 +1,168 @@
-import React, { Component } from "react";
-import * as $ from "jquery";
-import axios from "axios";
+import React, { useState, useEffect, useCallback } from "react";
+
+// TODO(michaelfromyeg): normalize CSS using a better CSS library, instead
+import Normalize from 'react-normalize';
 
 import {
   serverEndpoint,
-  authEndpoint,
-  clientId,
-  redirectUri,
-  scopes,
 } from "./config";
-import hash from "./hash";
-import Player from "./Player";
+import hash from "./util/hash";
+import Player from "./components/Player";
 
-import PoetryVisualizer from "./components/RhymeVisualizer/PoetryVisualizer";
-import RhymeVisualizer from "./components/RhymeVisualizer/RhymeVisualizer";
-
-import header from "./assets/text-logo.png";
-import logo from "./assets/logo.svg";
+import Header from "./components/Header";
+import Welcome from "./components/Welcome";
+import PoetryVisualizer from "./components/PoetryVisualizer";
+import RhymeVisualizer from "./components/RhymeVisualizer";
+import Footer from "./components/Footer";
 
 import "./styles/global.css";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      token: null,
-      item: {
-        album: {
-          images: [{ url: "" }],
-        },
-        name: "",
-        artists: [{ name: "" }],
-        duration_ms: 0,
-      },
-      is_playing: "Paused",
-      progress_ms: 0,
-      lyrics: "",
-    };
-    this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
-    this.onPoetry = this.onPoetry.bind(this);
-    this.pingSpotify();
-    this.interval = setInterval(this.pingSpotify.bind(this), 3000);
-  }
 
-  pingSpotify() {
+const App = () => {
+  const [token, setToken] = useState(null);
+  const [item, setItem] = useState({
+    album: {
+      images: [{ url: "" }],
+    },
+    name: "",
+    artists: [{ name: "" }],
+    duration_ms: 0,
+  });
+  const [isPlaying, setIsPlaying] = useState("Paused");
+  const [progressMs, setProgressMs] = useState(0);
+  const [lyrics, setLyrics] = useState("");
+
+  const pingSpotify = useCallback(() => {
+    console.log("Pinging Spotify...");
+
     // Set token
     let _token = hash.access_token;
 
     if (_token) {
       // Set token
-      this.setState({
-        token: _token,
-      });
-      this.getCurrentlyPlaying(_token);
-    }
-  }
+      console.log(`Setting token to ${_token}...`)
 
-  getCurrentlyPlaying(token) {
-    // Make a call using the token
-    $.ajax({
-      url: "https://api.spotify.com/v1/me/player",
-      type: "GET",
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader("Authorization", "Bearer " + token);
-      },
-      success: (data) => {
+      setToken(_token);
+    }
+  }, []);
+
+  // Initial check of currently playing song
+  useEffect(() => {
+    pingSpotify();
+  }, [pingSpotify]);
+
+  // Update song information every 3 seconds
+  setInterval(() => {
+    pingSpotify();
+  }, 30000);
+
+  /**
+   * Get the user's currently playing song via the Spotify WebSDK.
+   */
+  const getCurrentlyPlayingSong = useCallback(async () => {
+    if (!token) {
+      console.warn("No token found");
+      return;
+    }
+
+    console.log("Fetching currently playing song...");
+
+    try {
+      // Make a call using the token
+      const response = await fetch("https://api.spotify.com/v1/me/player", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      if (response.status === 404) {
+        throw new Error("Could not find lyrics!")
+      }
+
+      if (response.statsu === 204) {
+        console.warn("No song currently playing");
+        return;
+      }
+
+      const data = await response.json();
+      console.log({ data });
+
+      setItem(data?.item);
+      setIsPlaying(data?.is_playing);
+      setProgressMs(data?.progress_ms);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    getCurrentlyPlayingSong(token);
+  }, [token, getCurrentlyPlayingSong]);
+
+  // When the currently playing song changes, fetch the lyrics
+  useEffect(() => {
+    const getLyrics = async () => {
+      // Guard for no song playing or missing data to find lyrics
+      if (!item || !item.artists || !item.artists[0] || !item.name) {
+        console.warn("No song playing or missing data to find lyrics");
+        return;
+      };
+
+      try {
+        const response = await fetch(`${serverEndpoint}/lyrics/${item.artists[0].name}/${item.name}`)
+
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+
+        const data = await response.json();
         console.log({ data });
 
-        if (
-          data &&
-          data.item !== null &&
-          data.item.name !== this.state.item.name
-        ) {
-          // check if song is different than current song
-          axios
-            .get(
-              `${serverEndpoint}/lyrics/${data.item.artists[0].name}/${data.item.name}`
-            )
-            .then((res) => {
-              // handle success
-              console.log(res.data);
-              this.setState({
-                lyrics: res.data.data,
-              });
-            });
+        // TODO(michaelfromyeg): rename 'data' field of lyrics to something more descriptive
+        setLyrics(data?.lyrics);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-          this.setState({
-            item: data.item,
-            is_playing: data.is_playing,
-            progress_ms: data.progress_ms,
-          });
-        }
-      },
-    });
+    getLyrics();
+  }, [item]);
+
+
+  const onPoetry = () => {
+    setToken("poetry");
   }
 
-  onPoetry() {
-    console.log("onPoetry");
-    console.log(this.state.token);
-    this.setState({
-      token: "poetry",
-    });
-    console.log(this.state.token);
+  const onBack = () => {
+    setToken(null);
   }
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <img src={header} width="25%" className="Header-text" alt="header" />
-          {!this.state.token && (
-            <>
-              <h1>Welcome to RapViz!</h1>
-              <a
-                className="btn btn--loginApp-link"
-                href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-                  "%20"
-                )}&response_type=token&show_dialog=true`}
-              >
-                <i class="fab fa-spotify"></i> SPOTIFY
-              </a>
-              <br></br>
-              <button
-                className="btn btn--loginApp-link"
-                onClick={this.onPoetry}
-              >
-                <i class="fas fa-pencil-alt"></i> FREESTYLE
-              </button>
-            </>
-          )}
-          {this.state.token && this.state.token === "poetry" && (
-            <>
-              <p>Enter your bars below!</p>
-              <PoetryVisualizer />
-            </>
-          )}
-          {this.state.token && this.state.token !== "poetry" && (
-            <div className="flex-colmn">
-              <Player
-                item={this.state.item}
-                is_playing={this.state.is_playing}
-                progress_ms={this.progress_ms}
-              />
-              <RhymeVisualizer lyrics={this.state.lyrics} />
-            </div>
-          )}
-          <div className="Footer-div">
-            <p className="Footer-text">
-              Bringing the <em>fire</em> to firebase
-            </p>
-            <p className="Footer-text">
-              &copy; 2020 RapViz. Built for HackTech 2020
-            </p>
-          </div>
-        </header>
-      </div>
-    );
-  }
+  return (
+    <div className="app">
+      <Normalize />
+      <Header />
+      {!token && (
+        <Welcome onPoetry={onPoetry} />
+      )}
+      {token && token === "poetry" && (
+        <>
+          {/* TODO(michaelfromyeg): rename; add song search (without Spotify) */}
+          <PoetryVisualizer onBack={onBack} />
+        </>
+      )}
+      {token && token !== "poetry" && (
+        <RhymeVisualizer item={item} isPlaying={isPlaying} progressMs={progressMs} onBack={onBack} lyrics={lyrics} />
+      )}
+      <Footer />
+    </div>
+  );
 }
 
 export default App;

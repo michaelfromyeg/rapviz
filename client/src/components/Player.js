@@ -1,10 +1,17 @@
 import React from "react";
-import "./Player.css";
+
+import "../styles/Player.css";
 
 const Player = (props) => {
-  // const backgroundStyles = {
-  //   backgroundImage: `url(${props.item.album.images[0].url})`,
-  // };
+  if (!props.item || !props.item.album || !props.item.album.images || !props.item.album.images[0]) {
+    console.warn("Missing item");
+    return null;
+  }
+
+  if (!props.progressMs || !props.item.duration_ms) {
+    console.warn("Missing progress");
+    return null;
+  }
 
   const progressBarStyles = {
     width: (props.progress_ms * 100) / props.item.duration_ms + "%",

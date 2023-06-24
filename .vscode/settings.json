@@ -1,11 +1,11 @@
 {
   "files.insertFinalNewline": true,
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  },
   "python.analysis.extraPaths": [
     "server"
   ],
-  "python.defaultInterpreterPath": "server/env/bin/python",
+  "python.terminal.activateEnvironment": true,
   "python.formatting.provider": "black",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
 }
