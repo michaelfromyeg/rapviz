@@ -12,7 +12,7 @@ from flask_cors import CORS
 from flask_caching import Cache
 from dotenv import load_dotenv
 
-from .song import Song
+from song import Song
 
 app = Flask(__name__)
 CORS(app)
