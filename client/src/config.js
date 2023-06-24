@@ -3,7 +3,7 @@ const isDevelopment =
 
 export const serverEndpoint = isDevelopment
   ? "http://localhost:5000"
-  : "https://rapviz-production.up.railway.app";
+  : "https://api.rapviz.michaeldemar.co";
 
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
