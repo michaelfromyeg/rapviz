@@ -3,13 +3,13 @@ import { useState, useMemo } from "react";
 import { serverEndpoint } from "../config";
 import { buildRhymeOutput } from "../util/rhymes";
 
-const PoetryVisualizer = ({ onBack }) => {
+const PoetryVisualizer = ({ onBack }: any) => {
   const [lyrics, setLyrics] = useState("");
   const [rhymes, setRhymes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLyrics = (e) => {
-    setLyrics(e.target.value);
+  const handleLyrics = (event: any) => {
+    setLyrics(event.target.value);
   };
 
   /**
@@ -62,7 +62,6 @@ const PoetryVisualizer = ({ onBack }) => {
       </button>
       {isLoading && <p className="loading">(one sec...)</p>}
       <textarea
-        type="text"
         value={lyrics}
         onChange={handleLyrics}
         placeholder="Enter your lyrics here!"

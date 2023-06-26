@@ -1,6 +1,6 @@
 import { authEndpoint, clientId, redirectUri, scopes } from "../config";
 
-const Welcome = ({ onPoetry }) => {
+const Welcome = ({ onPoetry }: any) => {
   return (
     <div className="welcome">
       <h3>Select your source...</h3>

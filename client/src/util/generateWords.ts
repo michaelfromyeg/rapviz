@@ -44,7 +44,7 @@ const COLORS = [
  * @param {string[][]} rhymes - a list of rhyming words
  * @returns {Object[][]} - list of data containing words and their color for each line of the song
  */
-const generateRhymes = (lyrics, rhymes) => {
+const generateRhymes = (lyrics: any, rhymes: any) => {
   const colors = shuffle(COLORS);
 
   const wordData = [];
@@ -54,10 +54,10 @@ const generateRhymes = (lyrics, rhymes) => {
     .replace(/[.,:?!;\-()']/g, "")
     .replace(/  +/g, " ")
     .split("\n")
-    .map((arr) => arr.split(" "));
+    .map((arr: any) => arr.split(" "));
 
   let colorIndex = 0;
-  let colorMap = rhymes.reduce((map, rhymeCluster) => {
+  let colorMap = rhymes.reduce((map: any, rhymeCluster: any) => {
     map[colors[colorIndex]] = rhymeCluster;
     colorIndex++;
     return map;
@@ -82,9 +82,9 @@ const generateRhymes = (lyrics, rhymes) => {
   return wordData;
 };
 
-let getWordData = (parsedWord, word, colors) => {
+let getWordData = (parsedWord: any, word: any, colors: any) => {
   for (let [color, rhymeCluster] of Object.entries(colors)) {
-    if (rhymeCluster.includes(parsedWord)) {
+    if ((rhymeCluster as any).includes(parsedWord)) {
       // Contains rhyme
       return {
         color: color,

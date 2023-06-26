@@ -1,8 +1,6 @@
-import React from "react";
-
 import "../styles/Player.css";
 
-const Player = (props) => {
+const Player = (props: any) => {
   if (
     !props.item ||
     !props.item.album ||

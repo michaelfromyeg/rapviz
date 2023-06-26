@@ -15,7 +15,7 @@ import Footer from "./components/Footer";
 import "./styles/global.css";
 
 const App = () => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState<string | null>(null);
   const [item, setItem] = useState({
     album: {
       images: [{ url: "" }],
@@ -55,7 +55,7 @@ const App = () => {
   /**
    * Get the user's currently playing song via the Spotify WebSDK.
    */
-  const getCurrentlyPlayingSong = useCallback(async () => {
+  const getCurrentlyPlayingSong = useCallback(async (token: any) => {
     if (!token) {
       console.warn("No token found");
       return;
@@ -82,7 +82,7 @@ const App = () => {
         throw new Error("Could not find lyrics!");
       }
 
-      if (response.statsu === 204) {
+      if (response.status === 204) {
         console.warn("No song currently playing");
         return;
       }
@@ -96,7 +96,7 @@ const App = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     getCurrentlyPlayingSong(token);

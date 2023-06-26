@@ -4,7 +4,7 @@ import Player from "./Player";
 import { buildRhymeOutput } from "../util/rhymes";
 import { serverEndpoint } from "../config";
 
-const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }) => {
+const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) => {
   const [rhymes, setRhymes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,6 +1,4 @@
-import React from "react";
-
-function Word(props) {
+const Word = (props: any) => {
   let { color, word } = props;
   return (
     <>
