@@ -5,6 +5,7 @@ Main entry point for the Flask server.
 import json
 import re
 import os
+import logging
 
 import lyricsgenius
 from flask import Flask, jsonify, request
@@ -32,6 +33,8 @@ IS_DEVELOPMENT = os.getenv("PYTHON_ENV") == "development"
 
 GENIUS_TOKEN = os.getenv("GENIUS_ACCESS_TOKEN")
 
+logging.basicConfig(level=logging.DEBUG if IS_DEVELOPMENT else logging.INFO)
+
 genius = lyricsgenius.Genius(GENIUS_TOKEN)
 
 
@@ -43,12 +46,43 @@ def get_lyrics(artist, song_name):
     """
     request.is_xhr = True
 
-    genius_song = genius.search_song(song_name, artist)
+    could_not_find_song_response = jsonify(
+        isError=True,
+        message="Could not find song. Please try again.",
+        statusCode=404,
+    )
 
-    if genius_song is None:
-        return jsonify(message="No lyrics found for this song"), 404
+    # TODO(michaelfromyeg): migrate to less direct method; this causes 403s in production
+    # genuis_song = genius.search_song(song_name, artist)
 
-    lyrics = re.sub(r" ?\[[^\]]+\]", "", genius_song.lyrics)
+    genius_songs = genius.search_songs(f"{artist} {song_name}")
+    logging.debug("genius_songs:%s", genius_songs)
+
+    if genius_songs is None or "songs" not in genius_songs:
+        return could_not_find_song_response
+
+    genius_song_id = None
+
+    for genuis_song in genius_songs:
+        if genuis_song["title"] == song_name:
+            genius_song_id = genuis_song["id"]
+
+    logging.debug("genius_song_id:%s", genius_song_id)
+
+    if genius_song_id is None:
+        return could_not_find_song_response
+
+    genuis_song_with_lyrics = genius.song(genius_song_id)
+
+    if "lyrics" not in genuis_song_with_lyrics:
+        return could_not_find_song_response
+
+    lyrics = genuis_song_with_lyrics.lyrics
+
+    lyrics = re.sub(r" ?\[[^\]]+\]", "", lyrics)
+
+    if isinstance(lyrics, str):
+        lyrics = lyrics.strip()
 
     # Delete everything before the word 'lyrics'
     keyword = "Lyrics"
@@ -56,8 +90,6 @@ def get_lyrics(artist, song_name):
 
     keyword2 = "You might also like"
     lyrics = lyrics.split(keyword2)[0]
-
-    lyrics = lyrics.strip()
 
     return jsonify(lyrics=lyrics)
 
