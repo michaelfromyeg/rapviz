@@ -20,7 +20,7 @@ export const buildRhymeOutput = (lyrics: any, rhymes: any) => {
 
   let retval: ReactElement[] = [];
   for (const array of lyricsWithRhymes) {
-    const words = array.map((word) => {
+    const words = array.map((word: any) => {
       return <Word color={word.color} word={word.text} />;
     });
 

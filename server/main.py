@@ -105,6 +105,27 @@ def find_rhymes():
 
     return json.dumps(song_instance.find_all_rhyme_clusters())
 
+@app.errorhandler(400)
+def bad_request(error):
+    """
+    Surface JSON for 400 errors.
+    """
+    return jsonify({'error': 'Bad Request', 'message': str(error)}), 400
+
+@app.errorhandler(404)
+def not_found(error):
+    """
+    Surface JSON for 404 errors.
+    """
+    return jsonify({'error': 'Not Found', 'message': str(error)}), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    """
+    Surface JSON for 500 errors.
+    """
+    return jsonify({'error': 'Internal Server Error', 'message': str(error)}), 500
+
 
 if __name__ == "__main__":
     if IS_DEVELOPMENT:

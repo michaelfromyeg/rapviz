@@ -1,20 +1,20 @@
 import { shuffle } from "./helpers";
 
 const COLORS = [
-  "aqua",
-  "aquamarine",
-  "blue",
-  "blueviolet",
-  "cadetblue",
-  "chartreuse",
-  "coral",
-  "cornflowerblue",
-  "crimson",
-  "darkorange",
-  "fuchsia",
-  "gold",
-  "goldenrod",
-  "green",
+  "#00FFFF", // aqua
+  "#7FFFD4", // aquamarine
+  "#0000FF", // blue
+  "#8A2BE2", // blueviolet
+  "#5F9EA0", // cadetblue
+  "#7FFF00", // chartreuse
+  "#FF7F50", // coral
+  "#6495ED", // cornflowerblue
+  "#DC143C", // crimson
+  "#FF8C00", // darkorange
+  "#FF00FF", // fuchsia
+  "#FFD700", // gold
+  "#DAA520", // goldenrod
+  "#008000", // green
 ];
 
 /**
@@ -44,8 +44,12 @@ const COLORS = [
  * @param {string[][]} rhymes - a list of rhyming words
  * @returns {Object[][]} - list of data containing words and their color for each line of the song
  */
-const generateRhymes = (lyrics: any, rhymes: any) => {
+const generateRhymes = (lyrics: string, rhymes: string[][]): any => {
   const colors = shuffle(COLORS);
+
+  if (!lyrics) {
+    return [];
+  }
 
   const wordData = [];
   const words = lyrics.replace(/  +/g, " y").split(/\n| /);

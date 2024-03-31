@@ -1,12 +1,15 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 
 import Player from "./Player";
 import { buildRhymeOutput } from "../util/rhymes";
 import { serverEndpoint } from "../config";
+import { convertHtmlToRtf } from "../util/rtf";
 
 const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) => {
   const [rhymes, setRhymes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async () => {
     try {
@@ -31,6 +34,43 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) =
     }
   };
 
+  const handleRichCopy = async () => {
+    if (!contentRef.current) {
+      return;
+    }
+
+    const htmlContent = contentRef.current.innerHTML;
+
+    // Use the Clipboard API if available; else, download an RTF file
+    if (navigator.clipboard && navigator.clipboard.write) {
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const item = new ClipboardItem({ 'text/html': blob });
+
+      try {
+        await navigator.clipboard.write([item]);
+        console.log("Rich text copied to clipboard.")
+      } catch (error) {
+        console.error("Failed to copy rich text: ", error);
+      }
+    } else {
+      const rtfContent = convertHtmlToRtf(htmlContent);
+
+      const blob = new Blob([rtfContent], { type: 'application/rtf' });
+
+      const filename = "lyrics.rtf";
+
+      const anchor = document.createElement('a');
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = filename;
+
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      URL.revokeObjectURL(anchor.href);
+    }
+  }
+
   const encodedLyrics = useMemo(() => encodeURIComponent(lyrics), [lyrics]);
   const rhymeOutput = useMemo(
     () => buildRhymeOutput(lyrics, rhymes),
@@ -54,10 +94,16 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) =
       >
         ANALYZE
       </button>
+      <button
+        className="btn btn--loginApp-link Submit-lyrics"
+        onClick={handleRichCopy}
+      >
+        COPY
+      </button>
       {isLoading && <p className="loading">(one sec...)</p>}
       <div className="rap-wrapper">
         <Player item={item} isPlaying={isPlaying} progressMs={progressMs} />
-        <section className="output">{rhymeOutput}</section>
+        <div ref={contentRef} className="output">{rhymeOutput}</div>
       </div>
     </div>
   );
