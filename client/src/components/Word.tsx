@@ -1,5 +1,13 @@
-const Word = (props: any) => {
-  let { color, word } = props;
+import { ReactElement } from "react";
+
+interface WordProps {
+  color: string;
+  word: string;
+}
+
+const Word = (props: WordProps): ReactElement => {
+  const { color, word } = props;
+
   return (
     <>
       <span
@@ -8,11 +16,11 @@ const Word = (props: any) => {
           backgroundColor: color,
         }}
       >
-        {word}
+        {/* TODO(michaelfromyeg): render last space conditionally */}
+        {`${word} `}
       </span>
-      <span> </span>
     </>
   );
-}
+};
 
 export default Word;

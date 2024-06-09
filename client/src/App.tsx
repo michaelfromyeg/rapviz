@@ -1,20 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
-
-// TODO(michaelfromyeg): normalize CSS using a better CSS library, instead
-import Normalize from "react-normalize";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 
 import { serverEndpoint } from "./config";
 import hash from "./util/hash";
 
+import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Welcome from "./components/Welcome";
 import PoetryVisualizer from "./components/PoetryVisualizer";
 import RhymeVisualizer from "./components/RhymeVisualizer";
-import Footer from "./components/Footer";
+import Welcome from "./components/Welcome";
 
+import UploadVisualizer from "./components/UploadVisualizer";
 import "./styles/global.css";
 
-const App = () => {
+const App = (): ReactElement => {
   const [token, setToken] = useState<string | null>(null);
   const [item, setItem] = useState({
     album: {
@@ -42,37 +40,36 @@ const App = () => {
     }
   }, []);
 
-  // Initial check of currently playing song
   useEffect(() => {
     pingSpotify();
   }, [pingSpotify]);
 
-  // Update song information every 3 seconds
   setInterval(() => {
     pingSpotify();
-  }, 30000);
+  }, 30_000);
 
   /**
    * Get the user's currently playing song via the Spotify WebSDK.
    */
-  const getCurrentlyPlayingSong = useCallback(async (token: any) => {
+  const getCurrentlyPlayingSong = useCallback(async (token: string) => {
     if (!token) {
       console.warn("No token found");
       return;
     }
 
-    console.log("Fetching currently playing song...");
+    if (token === "poetry" || token === "upload") {
+      console.warn(`Called getCurrentlyPlayingSong in ${token} mode`);
+      return;
+    }
 
+    console.log("Fetching currently playing song from Spotify...");
     try {
-      // Make a call using the token
       const response = await fetch("https://api.spotify.com/v1/me/player", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
         },
       });
-
-      console.log(response);
 
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -99,15 +96,18 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    getCurrentlyPlayingSong(token);
+    if (token && token !== "poetry" && token !== "upload") {
+      getCurrentlyPlayingSong(token);
+    }
   }, [token, getCurrentlyPlayingSong]);
 
-  // When the currently playing song changes, fetch the lyrics
   useEffect(() => {
     const getLyrics = async () => {
       // Guard for no song playing or missing data to find lyrics
       if (!item || !item.artists || !item.artists[0] || !item.name) {
-        console.warn("No song playing or missing data to find lyrics");
+        console.warn(
+          "No song playing or missing necessary data to find lyrics"
+        );
         return;
       }
 
@@ -133,8 +133,12 @@ const App = () => {
     getLyrics();
   }, [item]);
 
-  const onPoetry = () => {
+  const onPoetry = (): void => {
     setToken("poetry");
+  };
+
+  const onUpload = (): void => {
+    setToken("upload");
   };
 
   const onBack = () => {
@@ -143,15 +147,11 @@ const App = () => {
 
   return (
     <div className="app">
-      <Normalize />
       <Header />
-      {!token && <Welcome onPoetry={onPoetry} />}
-      {token && token === "poetry" && (
-        <>
-          {/* TODO(michaelfromyeg): rename; add song search (without Spotify) */}
-          <PoetryVisualizer onBack={onBack} />
-        </>
-      )}
+      {!token && <Welcome onPoetry={onPoetry} onUpload={onUpload} />}
+      {/* TODO(michaelfromyeg): rename; add song search (without Spotify) */}
+      {token && token === "poetry" && <PoetryVisualizer onBack={onBack} />}
+      {token && token === "upload" && <UploadVisualizer onBack={onBack} />}
       {token && token !== "poetry" && (
         <RhymeVisualizer
           item={item}

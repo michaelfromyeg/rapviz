@@ -1,6 +1,24 @@
+import { ReactElement } from "react";
 import "../styles/Player.css";
 
-const Player = (props: any) => {
+interface Album {
+  images: any;
+}
+
+interface Item {
+  album: Album;
+  artists: any;
+  name: string;
+  duration_ms: number;
+}
+
+interface PlayerProps {
+  item: Item;
+  isPlaying: boolean;
+  progressMs: number;
+}
+
+const Player = (props: PlayerProps): ReactElement | null => {
   if (
     !props.item ||
     !props.item.album ||
@@ -17,7 +35,7 @@ const Player = (props: any) => {
   }
 
   const progressBarStyles = {
-    width: (props.progress_ms * 100) / props.item.duration_ms + "%",
+    width: (props.progressMs * 100) / props.item.duration_ms + "%",
   };
 
   return (
@@ -29,7 +47,7 @@ const Player = (props: any) => {
         <div className="now-playing__name">{props.item.name}</div>
         <div className="now-playing__artist">{props.item.artists[0].name}</div>
         <div className="now-playing__status">
-          {props.is_playing ? "Playing" : "Paused"}
+          {props.isPlaying ? "Playing" : "Paused"}
         </div>
         <div className="progress">
           <div className="progress__bar" style={progressBarStyles} />

@@ -1,11 +1,14 @@
 {
-  "files.insertFinalNewline": true,
-  "python.analysis.extraPaths": [
-    "server"
-  ],
-  "python.terminal.activateEnvironment": true,
-  "python.formatting.provider": "black",
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+  "files.associations": {
+    "*.lrc": "music"
   },
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "python.analysis.extraPaths": ["server"],
+  "python.terminal.activateEnvironment": true,
+  "python.terminal.activateEnvInCurrentTerminal": true
 }

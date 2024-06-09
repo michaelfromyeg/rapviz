@@ -1,23 +1,26 @@
-import { useState, useMemo, useRef } from "react";
+import { ReactElement, useMemo, useRef, useState } from "react";
 
 import { serverEndpoint } from "../config";
 import { buildRhymeOutput } from "../util/rhymes";
 import { convertHtmlToRtf } from "../util/rtf";
 
-const PoetryVisualizer = ({ onBack }: any) => {
-  const [lyrics, setLyrics] = useState("");
-  const [rhymes, setRhymes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+interface PoetryVisualizerProps {
+  onBack: () => void;
+}
 
-  const contentRef = useRef<HTMLDivElement>(null);
+const PoetryVisualizer = ({ onBack }: PoetryVisualizerProps): ReactElement => {
+  const [lyrics, setLyrics] = useState<string>("");
+  const [rhymes, setRhymes] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleLyrics = (event: any) => {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  const handleLyrics = (event: any): void => {
     setLyrics(event.target.value);
   };
 
   /**
-   * When the user submits the form, send the lyrics to the server and get the
-   * rhymes back.
+   * When the user submits the form, send the lyrics to the server and get the rhymes back.
    */
   const handleSubmit = async () => {
     try {
@@ -54,23 +57,23 @@ const PoetryVisualizer = ({ onBack }: any) => {
 
     // Use the Clipboard API if available; else, download an RTF file
     if (navigator.clipboard && navigator.clipboard.write) {
-      const blob = new Blob([htmlContent], { type: 'text/html' });
-      const item = new ClipboardItem({ 'text/html': blob });
+      const blob = new Blob([htmlContent], { type: "text/html" });
+      const item = new ClipboardItem({ "text/html": blob });
 
       try {
         await navigator.clipboard.write([item]);
-        console.log("Rich text copied to clipboard.")
+        console.log("Rich text copied to clipboard.");
       } catch (error) {
         console.error("Failed to copy rich text: ", error);
       }
     } else {
       const rtfContent = convertHtmlToRtf(htmlContent);
 
-      const blob = new Blob([rtfContent], { type: 'application/rtf' });
+      const blob = new Blob([rtfContent], { type: "application/rtf" });
 
       const filename = "lyrics.rtf";
 
-      const anchor = document.createElement('a');
+      const anchor = document.createElement("a");
       anchor.href = URL.createObjectURL(blob);
       anchor.download = filename;
 
@@ -80,7 +83,7 @@ const PoetryVisualizer = ({ onBack }: any) => {
 
       URL.revokeObjectURL(anchor.href);
     }
-  }
+  };
 
   const rhymeOutput = useMemo(
     () => buildRhymeOutput(lyrics, rhymes),
@@ -112,7 +115,9 @@ const PoetryVisualizer = ({ onBack }: any) => {
         onChange={handleLyrics}
         placeholder="Enter your lyrics here!"
       />
-      <div ref={contentRef} className="output">{rhymeOutput}</div>
+      <div ref={contentRef} className="output">
+        {rhymeOutput}
+      </div>
     </div>
   );
 };

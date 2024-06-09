@@ -1,11 +1,17 @@
-import { useState, useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 
-import Player from "./Player";
-import { buildRhymeOutput } from "../util/rhymes";
 import { serverEndpoint } from "../config";
+import { buildRhymeOutput } from "../util/rhymes";
 import { convertHtmlToRtf } from "../util/rtf";
+import Player from "./Player";
 
-const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) => {
+const RhymeVisualizer = ({
+  onBack,
+  lyrics,
+  item,
+  isPlaying,
+  progressMs,
+}: any) => {
   const [rhymes, setRhymes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,23 +49,23 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) =
 
     // Use the Clipboard API if available; else, download an RTF file
     if (navigator.clipboard && navigator.clipboard.write) {
-      const blob = new Blob([htmlContent], { type: 'text/html' });
-      const item = new ClipboardItem({ 'text/html': blob });
+      const blob = new Blob([htmlContent], { type: "text/html" });
+      const item = new ClipboardItem({ "text/html": blob });
 
       try {
         await navigator.clipboard.write([item]);
-        console.log("Rich text copied to clipboard.")
+        console.log("Rich text copied to clipboard.");
       } catch (error) {
         console.error("Failed to copy rich text: ", error);
       }
     } else {
       const rtfContent = convertHtmlToRtf(htmlContent);
 
-      const blob = new Blob([rtfContent], { type: 'application/rtf' });
+      const blob = new Blob([rtfContent], { type: "application/rtf" });
 
       const filename = "lyrics.rtf";
 
-      const anchor = document.createElement('a');
+      const anchor = document.createElement("a");
       anchor.href = URL.createObjectURL(blob);
       anchor.download = filename;
 
@@ -69,7 +75,7 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) =
 
       URL.revokeObjectURL(anchor.href);
     }
-  }
+  };
 
   const encodedLyrics = useMemo(() => encodeURIComponent(lyrics), [lyrics]);
   const rhymeOutput = useMemo(
@@ -103,7 +109,9 @@ const RhymeVisualizer = ({ onBack, lyrics, item, isPlaying, progressMs }: any) =
       {isLoading && <p className="loading">(one sec...)</p>}
       <div className="rap-wrapper">
         <Player item={item} isPlaying={isPlaying} progressMs={progressMs} />
-        <div ref={contentRef} className="output">{rhymeOutput}</div>
+        <div ref={contentRef} className="output">
+          {rhymeOutput}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,12 @@
+import { ReactElement } from "react";
 import { authEndpoint, clientId, redirectUri, scopes } from "../config";
 
-const Welcome = ({ onPoetry }: any) => {
+interface WelcomeProps {
+  onPoetry: () => void;
+  onUpload: () => void;
+}
+
+const Welcome = ({ onPoetry, onUpload }: WelcomeProps): ReactElement => {
   return (
     <div className="welcome">
       <h3>Select your source...</h3>
@@ -14,6 +20,9 @@ const Welcome = ({ onPoetry }: any) => {
       </a>
       <button className="btn btn--loginApp-link" onClick={onPoetry}>
         FREESTYLE
+      </button>
+      <button className="btn btn--loginApp-link" onClick={onUpload}>
+        UPLOAD
       </button>
     </div>
   );
