@@ -1,9 +1,9 @@
 .lrc-root {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  /* position: absolute; */
+  /* width: 100%; */
+  /* height: 100%; */
+  /* top: 0; */
+  /* left: 0; */
 
   display: flex;
   flex-direction: column;
@@ -13,13 +13,13 @@
   /* display: block; */
   /* max-height: 300px; */
   /* overflow: auto; */
-  padding: 2rem;
-  position: relative;
+  /* padding: 2rem; */
+  /* position: relative; */
 
-  flex: 1;
-  min-height: 0;
+  /* flex: 1; */
+  /* min-height: 0; */
 
-  &::before {
+  /* &::before {
     content: "";
     width: 100%;
     height: 1px;
@@ -29,7 +29,11 @@
     left: 0;
 
     background: rgb(255 0 0 / 0.15);
-  }
+  } */
+}
+
+.lrc-box > div {
+  max-height: 200px;
 }
 
 div.lyric > .time {

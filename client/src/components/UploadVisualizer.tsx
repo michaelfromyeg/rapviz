@@ -121,7 +121,7 @@ const UploadVisualizer = ({
           setCurrent={setCurrentMillisecond}
           recoverAutoScrollImmediately={recoverAutoScrollImmediately}
         />
-        <div className="lrc-box">
+        <div className={"lrc-box"}>
           <Lrc
             lrc={lrc}
             lineRenderer={({ active, line }) => (
